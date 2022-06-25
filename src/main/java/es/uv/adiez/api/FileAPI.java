@@ -39,9 +39,16 @@ public class FileAPI {
 		return file.get();
 	}
 	
+	@GetMapping("/published/{id}")
+	public File getPublisehdById(@PathVariable("id") String id) {
+		Optional<File> file = fileRepo.findByIdAndStatus(id, File.Status.published);
+		if(file.isEmpty()) return null;
+		return file.get();
+	}
+	
 	@GetMapping("/keyword/{keyword}")
 	public List<File> getByKeyword(@PathVariable("keyword") String keyword) {
-		List<File> files = fileRepo.findByKeywords(keyword);
+		List<File> files = fileRepo.findByKeywordsAndStatus(keyword, File.Status.published);
 		return files;
 	}
 	
